@@ -11,7 +11,7 @@ Template.user_loggedout.events({
 })
 
 Template.user_loggedin.events({
-    "click #login": function (e, tmpl) {
+    "click #logout": function (e, tmpl) {
         Meteor.logout(function(err){
             console.log(err);
         })
