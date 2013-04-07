@@ -45,7 +45,9 @@ Template.facebook.events
             if length is urls.length
               # put the full array of friend urls in the DB
               get_images urls
-
+  'click .walgreens': (e) ->
+    e.preventDefault()
+    share_walgreens()
 # this function pops one url at a time and tells the server to save jpeg to DB
 get_images = (urlArray) ->
   Meteor.call 'get_image', urlArray.pop(), (error, result) ->
@@ -72,3 +74,40 @@ share = (name) ->
     if err then console.error err
     data = JSON.parse(data.content)
     Session.set 'link', data.data.link
+
+share_walgreens = () ->
+  console.log 'shit'
+  api_key = 'a61e8e47ca83e86a2b8c705899ae9f6d'
+  affiliate_id = 'hackathon'
+  base_url = 'https://services-qa.walgreens.com/api/util/v2.0/mweb5url'
+  # url = Session.get 'imgur_url'
+  url = 'http://i.imgur.com/PhvTsqJ.jpg'
+  request_block = 
+    "transaction": "photoCheckoutv2",
+    "apikey": api_key,
+    "devinf": "web",
+    "appver": "3.1",
+    "act": "mweb5UrlV2",
+    "view": "mweb5UrlV2JSON",
+    "affId": affiliate_id,
+    "expiryTime": "04-04-2013 03:11:36",
+    "images": [url],
+    "lat": "42.138199",
+    "lng": "-87.945799",
+    "customer": {
+      "firstName": "Joe",
+      "lastName": "Shmoe",
+      "email": "joe@shmoe.com",
+      "phone": "415-555-5555"
+    },
+    "channelInfo": "",
+    "callBackLink": "",
+    "prodGroupId": ""
+  Meteor.http.post base_url, request_block, (err, data) ->
+    console.log 'hit'
+    if err then console.error err
+    data = JSON.parse data.content
+    landingURL = data.landingUrl
+    token = data.token
+    link = landingURL + token
+    Session.set 'link_to_walgreens', link
