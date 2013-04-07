@@ -3,11 +3,10 @@ var getData = window.d = function (imgel) {
       width, height, data,
       context = canvas.getContext('2d');
 
+
   if (imgel) {
     if (! canvas) throw new error('this function needs a canvas el');
-
     height = canvas.height = imgel.naturalheight || imgel.offsetheight || imgel.height;
-
     width = canvas.width = imgel.naturalwidth || imgel.offsetwidth || imgel.width;
     
     context.drawimage(imgel, 0, 0);
@@ -26,6 +25,8 @@ var getData = window.d = function (imgel) {
 
   return;
 };
+
+
 
 window.rgb = function getAverageRGB(selector) {
   var blockSize = 5, 
@@ -86,10 +87,8 @@ function tile (dx, dy, i, j) {
       .css('left', i * dx)
       .css('top', j * dy)
       .appendTo('body');
-    console.log('hi');
   }, i * 10 + j + 10);
-  console.log(j, i);
-}
+};
 
 if (Meteor.isClient) window.g = grid_img;
 Meteor.isClient && (window.test = function () {
@@ -99,3 +98,33 @@ Meteor.isClient && (window.test = function () {
     }, i * 10);
   });
 });
+
+Meteor.startup(function() {
+  var colorArray = [[240,200,139], [15,93,100], [60,200,60], [100,255, 100], [57,57,90], [200, 100, 63], [12,09,80], [1, 1 , 255]];
+
+  var condenseValue = function(array) {
+    var resultarray = [];
+    for(var i = 0; i < array.length; i++) {
+      resultarray.push(pusher.color('rgb', array[i][0], array[i][1], array[i][2]));
+    }
+    return resultarray;
+  };
+
+  var rgbSort = function() {
+    array.sort(function(colorA, colorB) {
+    return pusher.color(colorA).hue() - pusher.color(colorB).hue();
+    })
+  };
+
+  var plotColors = function(array) {
+    for(var i = 0; i < array.length; i++) {
+      $('body').append('<div class="test" style="background: '+ array[i].html() + ';"</div>')
+    }
+  };
+
+  window.array = colorArray;
+    
+  window.b = condenseValue;
+  window.a = rgbSort;
+  window.c = plotColors;
+})

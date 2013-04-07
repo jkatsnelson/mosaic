@@ -1,1 +1,6 @@
 /* CSS declarations go here */
+
+.test {
+  width: 50px;
+  height: 50px;
+}
