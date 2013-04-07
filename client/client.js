@@ -121,6 +121,7 @@ Meteor.isClient && (window.test = function () {
   });
 });
 
+
 Meteor.startup(function() {
   var colorArray = [[240,200,139], [15,93,100], [60,200,60], [100,255, 100], [57,57,90], [200, 100, 63], [12,09,80], [1, 1 , 255]];
 
@@ -150,3 +151,21 @@ Meteor.startup(function() {
   window.a = rgbSort;
   window.c = plotColors;
 });
+
+
+
+function bsearc_clasesth(arr, val){
+  var lo = 0, hi = arr.length;
+  var mid = (lo + hi) >> 1;
+  var prev;
+  val = typeof val === 'function' ? val : function (d) { return val > d};
+
+  while(mid > lo && mid < hi){
+    prev = arr[mid];
+    val(arr[mid]) ? (hi = mid) : (lo = mid);
+    mid = (lo + hi) >> 1;
+  }
+  return prev;
+}
+
+
