@@ -64,9 +64,23 @@ window.rgb = function getAverageRGB(selector) {
   return rgb;
 };
 
-var getImage = function(url) {
+urlArray = [];
+
+var getArray = function() {
+  if (Images) {
+    var shit = Images.find({}).fetch();
+    for(var i = 0; i < shit.length; i++) {
+      console.log(shit[i].body);
+      urlArray.push(shit[i].body);
+    }
+  }
+};
+
+window.fucker = getArray;
+
+var getImage = function(binary) {
   var image = new Image();
-  image.src = url;
+  image.src = 'data:image/jpeg;base64,' + binary;
   var newCanvas = document.createElement('canvas');
   newCanvas.height = image.height;
   newCanvas.width = image.width;
@@ -78,29 +92,31 @@ var getImage = function(url) {
 var context;
 
 //grid x = how many aside y = height
-function grid_img(x, y) {
+function grid_img(x, y, arr) {
+  fucker();
+  arr = urlArray;
   var w = innerWidth, h = innerHeight;
   var dx = w / x, dy = h / y;
   var newCanvas = document.createElement('canvas');
   newCanvas.height = y * dy;
   newCanvas.width = x * dx;
+  $('body').append(newCanvas);
   context = newCanvas.getContext('2d');
-  $('body').append(newCanvas).addClass('helloworld');
   var i = 0, j = 0;
   while (i++ < x) {
     j = 0;
-    while (j++ < y) tile(dx, dy, i, j);
+    while (j++ < y) tile(dx, dy, i, j, arr);
   }
 };
 
-function tile (dx, dy, i, j) {
-  var url = window.test_url;
+function tile (dx, dy, i, j, arr) {
+  var binaryArray = arr;
   setTimeout(function () {
     var image = new Image();
-    image.src = url[ ~~(Math.random() * url.length) ];
+    image.src = 'data:image/jpeg;base64,' + binaryArray[ i*j ];
     
     image.onload = function() {
-      context.drawImage(image, dx * i, dy * j, dx, dy);
+      context.drawImage(image, dx * (i-1), dy * (j-1), dx, dy);
     };
           
     
