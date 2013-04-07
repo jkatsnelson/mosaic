@@ -87,10 +87,8 @@ function tile (dx, dy, i, j) {
       .css('left', i * dx)
       .css('top', j * dy)
       .appendTo('body');
-    console.log('hi');
   }, i * 10 + j + 10);
-  console.log(j, i);
-}
+};
 
 if (Meteor.isClient) window.g = grid_img;
 Meteor.isClient && (window.test = function () {
@@ -102,7 +100,7 @@ Meteor.isClient && (window.test = function () {
 });
 
 Meteor.startup(function() {
-  var colorArray = [[240,200,139],[15,93,100], [60,200,60], [100,255, 100], [57,57,90], [200, 100, 63], [12,09,80], [1, 1 , 255]];
+  var colorArray = [[240,200,139], [15,93,100], [60,200,60], [100,255, 100], [57,57,90], [200, 100, 63], [12,09,80], [1, 1 , 255]];
 
   var condenseValue = function(array) {
     var resultarray = [];
@@ -110,7 +108,7 @@ Meteor.startup(function() {
       resultarray.push(pusher.color('rgb', array[i][0], array[i][1], array[i][2]));
     }
     return resultarray;
-  }
+  };
 
   var rgbSort = function() {
     array.sort(function(colorA, colorB) {
