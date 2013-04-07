@@ -1,9 +1,6 @@
 request = Npm.require 'request'
 Future = Npm.require 'fibers/future'
 
-binaries = []
-num = 0
-
 Meteor.methods
   get_image : (url) ->
     fut = new Future()
@@ -13,7 +10,7 @@ Meteor.methods
     # Get raw JPG binaries
     request.get options, (error, result, body) ->
       throw error if error
-      fut.ret jpeg
       jpeg = body.toString('base64')
+      fut.ret jpeg
     # pause until binaries are fully loaded
     return fut.wait()

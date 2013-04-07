@@ -9,6 +9,6 @@ preserve-inputs
 coffeescript
 http
 underscore
+bootstrap
 accounts-ui
 accounts-facebook
-bootstrap
