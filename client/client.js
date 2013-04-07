@@ -75,9 +75,17 @@ var getImage = function(url) {
   context.drawImage(image, 0, 0);
 };
 
+var context;
+
+//grid x = how many aside y = height
 function grid_img(x, y) {
   var w = innerWidth, h = innerHeight;
   var dx = w / x, dy = h / y;
+  var newCanvas = document.createElement('canvas');
+  newCanvas.height = y * dy;
+  newCanvas.width = x * dx;
+  context = newCanvas.getContext('2d');
+  $('body').append(newCanvas).addClass('helloworld');
   var i = 0, j = 0;
   while (i++ < x) {
     j = 0;
@@ -92,12 +100,7 @@ function tile (dx, dy, i, j) {
     image.src = url[ ~~(Math.random() * url.length) ];
     
     image.onload = function() {
-      var newCanvas = document.createElement('canvas');
-      image.height = newCanvas.height = dy;
-      image.width = newCanvas.width = dx;
-      $('body').append(newCanvas);
-      var context = newCanvas.getContext('2d');
-      context.drawImage(image, 0, 0);
+      context.drawImage(image, dx * i, dy * j, dx, dy);
     };
           
     
