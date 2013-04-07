@@ -3,7 +3,6 @@ var getData = window.d = function (imgel) {
       width, height, data,
       context = canvas.getContext('2d');
 
-
   if (imgel) {
     if (! canvas) throw new error('this function needs a canvas el');
     height = canvas.height = imgel.naturalheight || imgel.offsetheight || imgel.height;
@@ -202,3 +201,16 @@ window.bs = function bsearc_closest(arr, val, cmp){
 
 window.r = _.range(10, 155, 5);
 
+
+function sorted_pics() {
+  var img = Images.find().fetch().sort();
+  img.each(function (img) {
+    img.avg = 
+      window.rgb($('<img>')
+                 .attr('src', 'data:image/jpeg;base64,' + img.body)[0]);
+  });
+
+  return img.sort(function(colorA, colorB) {
+    return pusher.color(colorA.avg).hue() - pusher.color(colorB.avg).hue();
+    });
+}
