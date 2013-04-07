@@ -48,6 +48,7 @@ Template.facebook.events
 # this function pops one url at a time and tells the server to save jpeg to DB
 get_images = (urlArray) ->
   Meteor.call 'get_image', urlArray.pop(), (error, result) ->
+    console.log result
     Images.insert body: result
     if urlArray.length
       get_images urlArray
