@@ -44,6 +44,16 @@ window.rgb = function getAverageRGB(selector) {
   return rgb;
 }
 
+var getImage = function(url) {
+  var image = new Image();
+  image.src = url;
+  var newCanvas = document.createElement('canvas');
+  newCanvas.height = image.height;
+  newCanvas.width = image.width;
+  $('body').append(newCanvas);
+  var context = newCanvas.getContext('2d');
+  context.drawImage(image, 0, 0);
+};
 
 function grid_img(x, y) {
   var w = innerWidth, h = innerHeight;
@@ -80,3 +90,8 @@ Meteor.isClient && (window.test = function () {
   });
 });
 
+Template.hello.events = {
+  'click .btn' : function() {
+    getImage('http://www.thejunglestore.com/core/media/media.nl?id=37516&c=432681&h=3c579cf84403f4536d5b');
+  }
+}
