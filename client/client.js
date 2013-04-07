@@ -3,11 +3,10 @@ var getData = window.d = function (imgel) {
       width, height, data,
       context = canvas.getContext('2d');
 
-  canvas.width = canvas.height = 500;
   if (imgel) {
     if (! canvas) throw new error('this function needs a canvas el');
-    height = canvas.height = imgel.naturalheight || imgel.offsetheight || imgel.height;
-    width = canvas.width = imgel.naturalwidth || imgel.offsetwidth || imgel.width;
+    height = canvas.height = 500;
+    width = canvas.width = 500;
     
     context.drawImage(imgel, 0, 0);
   }
@@ -108,6 +107,12 @@ function grid_img(x, y, arr) {
 };
 
 function tile (dx, dy, i, j, arr) {
+  var pull = window.sp();
+  var match = 
+        pull.closest(
+          window.rgb(
+            context.getImageData(dx * (i-1), dy *(j-1), dx, dy)));
+  
   var binaryArray = arr;
   setTimeout(function () {
     var image = new Image();
@@ -154,7 +159,7 @@ Meteor.startup(function() {
   var rgbSort = function() {
     array.sort(function(colorA, colorB) {
     return pusher.color(colorA).hue() - pusher.color(colorB).hue();
-    })
+    });
   };
 
   var plotColors = function(array) {
@@ -191,7 +196,38 @@ function closest (arr, comparator) {
   return c;
 }
 
-window.bs = function bsearc_closest(arr, val, cmp){
+
+window.r = _.range(10, 155, 5);
+
+
+function sorted_pics() {
+  var img = Images.find().fetch();
+  var c = document.querySelector('#hidden');
+  img.forEach(function (img) {
+    var rgb = window.rgb($('<img>')
+           .attr('src', 'data:image/jpeg;base64,' + img.body)[0]);
+
+    img.avg = rgb;
+        
+  });
+  img.closest = function (rgb) {
+    return closest(img, function (item) {
+      window.distance(rgb, item.avg);
+    });
+  };
+
+  return img.sort(function(colorA, colorB) {
+    var a = colorA.avg;
+    var b = colorB.avg;
+    return pusher.color('rgb', a[0], a[1], a[2]).hue()
+      - pusher.color('rgb', b[0], b[1], b[2]).hue();
+  });
+}
+
+
+window.sp = sorted_pics;
+
+window.bs = function bsearch_closest(arr, val, cmp){
   var lo = 0, hi = arr.length;
   var mid = (lo + hi) >> 1;
   var b, prev;
@@ -209,24 +245,3 @@ window.bs = function bsearc_closest(arr, val, cmp){
   //no match found
   return prev;
 };
-
-window.r = _.range(10, 155, 5);
-
-
-function sorted_pics() {
-  var img = Images.find().fetch();
-  var c =document.querySelector('#hidden');
-  c.height = c.width = 500;
-  img.forEach(function (img) {
-    img.avg = 
-      window.rgb($('<img>')
-                 .attr('src', 'data:image/jpeg;base64,' + img.body)[0]);
-  });
-
-  return img.sort(function(colorA, colorB) {
-    return pusher.color(colorA.avg).hue() - pusher.color(colorB.avg).hue();
-  });
-}
-
-window.sp = sorted_pics;
-
