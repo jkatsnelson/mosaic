@@ -1,6 +1,5 @@
 Meteor.startup ->
   token = 'AAACEdEose0cBAMoYg1ZCk4GjQl7YIjWuipI2OcbiXCLrk15FoHhwOue3ZCkt1jKiPZCodifL8UjLPooY2lN8IVZBndchTWOMRreMcAkNauMK24ZAJHxIg'
-  Session.set 'token', token
   added = 0
   query = Images.find({})
   query.observe
@@ -20,30 +19,31 @@ image_to_canvas = (binary) ->
 Template.facebook.events
   'click .pull_data': (e) ->
     e.preventDefault()
-    token = Session.get 'token'
+    Meteor.call "getAccessToken", (error, accessToken) ->
+      console.log accessToken;
+
     # get profile pic of user
-    Meteor.http.get 'https://graph.facebook.com/me/Picture?redirect=false&access_token='+token, (err, result) ->
-      throw err if err
-      content = JSON.parse result.content
-      Session.set 'user_image', content.data.url
-    # get friends profile pics
-    Meteor.http.get 'https://graph.facebook.com/me/friends?access_token='+token, (err, result) ->
-      throw err if err
-      friendlist = result.data.data
-      token = Session.get 'token'
-      urls = []
-      length = 0
-      # for each friend, grab the url to their profile pic
-      _.each friendlist, (friend) ->
-        Meteor.http.get 'https://graph.facebook.com/'+friend.id+'/Picture?redirect=false&access_token='+token, (err, result) ->
-          throw err if err
-          content = JSON.parse result.content
-          unless content.data.is_silhouette
-            urls.push content.data.url
-            length++
-          if length is urls.length
-            # put the full array of friend urls in the DB
-            get_images urls
+    # Meteor.http.get 'https://graph.facebook.com/me/Picture?redirect=false&access_token='+token, (err, result) ->
+    #   throw err if err
+    #   content = JSON.parse result.content
+    #   Session.set 'user_image', content.data.url
+    # # get friends profile pics
+    # Meteor.http.get 'https://graph.facebook.com/me/friends?access_token='+token, (err, result) ->
+    #   throw err if err
+    #   friendlist = result.data.data
+    #   urls = []
+    #   length = 0
+    #   # for each friend, grab the url to their profile pic
+    #   _.each friendlist, (friend) ->
+    #     Meteor.http.get 'https://graph.facebook.com/'+friend.id+'/Picture?redirect=false&access_token='+token, (err, result) ->
+    #       throw err if err
+    #       content = JSON.parse result.content
+    #       unless content.data.is_silhouette
+    #         urls.push content.data.url
+    #         length++
+    #       if length is urls.length
+    #         # put the full array of friend urls in the DB
+    #         get_images urls
 
 # this function pops one url at a time and tells the server to save jpeg to DB
 get_images = (urlArray) ->
