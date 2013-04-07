@@ -10,6 +10,7 @@ Meteor.startup ->
         if added is Session.get 'urls_length' then console.log 'FUCK YES MAN'
 
 image_to_canvas = (binary) ->
+  console.log(binary)
   img = new Image()
   img.src = 'data:image/jpeg;base64,' + binary
   ctx = document.getElementById('c').getContext('2d')
