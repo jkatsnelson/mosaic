@@ -3,6 +3,11 @@ Meteor.startup ->
   Session.set 'token', token
   urlArray = []
 
+  window.pull_data = ->
+    Meteor.http.get 'https://graph.facebook.com/me/friends?access_token='+token, (err, result) ->
+      throw err if err
+      Session.set 'friendlist', result.data.data
+
 Template.facebook.events
   'click .pull_data': (e) ->
     e.preventDefault()
@@ -14,6 +19,8 @@ Template.facebook.events
     Meteor.http.get 'https://graph.facebook.com/me/friends?access_token='+token, (err, result) ->
       throw err if err
       Session.set 'friendlist', result.data.data
+    console.log token
+    pull_data()
 
 Deps.autorun ->
   if Session.get 'friendlist'
@@ -26,4 +33,5 @@ Deps.autorun ->
         content = JSON.parse result.content
         unless content.data.is_silhouette
           urls.push content.data.url
-        if friend is friendlist[friendlist.length-1] then console.log urls
+        if friend is friendlist[friendlist.length-1]
+          console.log window.x = urls
