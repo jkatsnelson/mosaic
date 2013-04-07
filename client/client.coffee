@@ -7,7 +7,10 @@ Template.facebook.events
   'click .pull_data': (e) ->
     e.preventDefault()
     token = Session.get 'token'
-    console.log token
+    Meteor.http.get 'https://graph.facebook.com/me/Picture?redirect=false&access_token='+token, (err, result) ->
+      throw err if err
+      content = JSON.parse result.content
+      Session.set 'user_image', content.data.url
     Meteor.http.get 'https://graph.facebook.com/me/friends?access_token='+token, (err, result) ->
       throw err if err
       Session.set 'friendlist', result.data.data
