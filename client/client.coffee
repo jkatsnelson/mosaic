@@ -45,7 +45,9 @@ Template.facebook.events
             if length is urls.length
               # put the full array of friend urls in the DB
               get_images urls
-
+  'click .walgreens': (e) ->
+    e.preventDefault()
+    share_walgreens()
 # this function pops one url at a time and tells the server to save jpeg to DB
 get_images = (urlArray) ->
   Meteor.call 'get_image', urlArray.pop(), (error, result) ->
@@ -71,4 +73,10 @@ share = (name) ->
   , (err, data) ->
     if err then console.error err
     data = JSON.parse(data.content)
-    Session.set 'link', data.data.link
+    Session.set 'imgur_link', data.data.link
+
+share_walgreens = () ->
+  Meteor.call 'share_walgreens', (error, result) ->
+    throw error if error
+    console.log result
+    Session.set 'walgreens_link', result
