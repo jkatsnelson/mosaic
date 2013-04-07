@@ -101,13 +101,6 @@ Meteor.isClient && (window.test = function () {
   });
 });
 
-
-Template.hello.events = {
-  'click .btn' : function() {
-    getImage('http://www.thejunglestore.com/core/media/media.nl?id=37516&c=432681&h=3c579cf84403f4536d5b');
-  }
-}
-console.log(123123);
 Meteor.startup(function() {
   var colorArray = [[240,200,139],[15,93,100], [60,200,60], [100,255, 100], [57,57,90], [200, 100, 63], [12,09,80], [1, 1 , 255]];
 
