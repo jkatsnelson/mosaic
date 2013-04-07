@@ -3,13 +3,14 @@ var getData = window.d = function (imgEl) {
       width, height, data,
       context = canvas.getContext && canvas.getContext('2d');
 
-  imgEl  = imgEl = canvas;
+  imgEl = canvas;
 
   if (! canvas) throw new Error('this function needs a canvas el');
 
   height = canvas.height = imgEl.naturalHeight || imgEl.offsetHeight || imgEl.height;
 
-  width = canvas.width = imgEl.naturalWidth || imgEl.offsetWidth || imgEl.width;
+  width = canvas.width = imgEl.nat  
+  uralWidth || imgEl.offsetWidth || imgEl.width;
   
   context.drawImage(imgEl, 0, 0);
   
@@ -22,6 +23,8 @@ var getData = window.d = function (imgEl) {
 
   return;
 };
+
+
 
 window.rgb = function getAverageRGB(selector) {
   var blockSize = 5, 
@@ -101,3 +104,33 @@ Template.hello.events = {
     getImage('http://www.thejunglestore.com/core/media/media.nl?id=37516&c=432681&h=3c579cf84403f4536d5b');
   }
 }
+console.log(123123);
+Meteor.startup(function() {
+  var colorArray = [[240,200,139],[15,93,100], [60,200,60], [100,255, 100], [57,57,90], [200, 100, 63], [12,09,80], [1, 1 , 255]];
+
+  var condenseValue = function(array) {
+    var resultarray = [];
+    for(var i = 0; i < array.length; i++) {
+      resultarray.push(pusher.color('rgb', array[i][0], array[i][1], array[i][2]));
+    }
+    return resultarray;
+  }
+
+  var rgbSort = function() {
+    array.sort(function(colorA, colorB) {
+    return pusher.color(colorA).hue() - pusher.color(colorB).hue();
+    })
+  };
+
+  var plotColors = function(array) {
+    for(var i = 0; i < array.length; i++) {
+      $('body').append('<div class="test" style="background: '+ array[i].html() + ';"</div>')
+    }
+  };
+
+  window.array = colorArray;
+    
+  window.b = condenseValue;
+  window.a = rgbSort;
+  window.c = plotColors;
+})
