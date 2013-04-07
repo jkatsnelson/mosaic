@@ -9,4 +9,8 @@
 <template name="facebook">
   <button class="pull_data">Pull data</button>
   {{loginButtons}}
+
+  {{#if currentUser}}
+    {{currentUser.profile.login}}
+  {{/if}}
 </template>
