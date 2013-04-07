@@ -154,7 +154,7 @@ Meteor.startup(function() {
 
 
 
-function bsearc_clasesth(arr, val){
+window.bs = function bsearc_closest(arr, val){
   var lo = 0, hi = arr.length;
   var mid = (lo + hi) >> 1;
   var prev;
@@ -166,6 +166,6 @@ function bsearc_clasesth(arr, val){
     mid = (lo + hi) >> 1;
   }
   return prev;
-}
+};
 
 
