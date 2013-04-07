@@ -6,20 +6,38 @@
 </head>
 
 <body>
-
-  {{> header}}
-  {{> main}}
-  {{> facebook}}
-  <canvas></canvas>
+    {{#if currentUser}}
+      {{> header}}
+      {{> mosaic}}
+    {{else}}
+      {{> header}}
+      {{> main}}
+      {{> facebook}}
+    {{/if}}
 
 </body>
+
+<template name="mosaic">
+  <div class="container">
+    <canvas class="span8" style="background:blue"></canvas>
+    <div class="socialButtons span3">
+      <ul>
+        <a href="" class="row"><li>Twitter</li></a>
+        <a href="" class="row"><li>Facebook</li></a>
+        <a href="" class="row"><li>walgreens</li></a>
+      </ul>
+    </div>
+  </div>
+</template>
 
 <template name="header">
     <div class="navbar">
         <div class="navbar-inner">
             <div class="container">
                 <div class="nav pull-right">
-                      {{> user_info}}
+                      {{#if currentUser}}
+                        {{> user_info}}
+                      {{/if}}
                 </div>
             </div>
         </div>
@@ -28,7 +46,7 @@
 
 <template name="user_info">
     <ul class="nav pull-right">
-      <!-- {{loginButtons}} -->
+      {{loginButtons}}
     </ul>
 </template>
 
