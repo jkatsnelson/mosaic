@@ -14,7 +14,7 @@ image_to_canvas = (binary) ->
   ctx = document.getElementById('c').getContext('2d')
   img.onload = () ->
     ctx.drawImage(img, 0, 0)
-Template.facebook.rendered = (e) ->
+Template.mosaic.rendered = (e) ->
     Meteor.call "get_access_token", (error, accessToken) ->
       throw error if error
       token = accessToken
@@ -43,7 +43,8 @@ Template.facebook.rendered = (e) ->
               # put the full array of friend urls in the DB
               get_images urls
           g(20,30)
-Template.facebook.events
+
+Template.mosaic.events
   'click .walgreens': (e) ->
     e.preventDefault()
     share_walgreens()
@@ -72,9 +73,10 @@ share = (name) ->
   , (err, data) ->
     if err then console.error err
     data = JSON.parse(data.content)
-    Session.set 'link', data.data.link
+    Session.set 'imgur_link', data.data.link
 
 share_walgreens = () ->
   Meteor.call 'share_walgreens', (error, result) ->
     throw error if error
-    console.log 'worked'
+    console.log result
+    window.open result
