@@ -45,6 +45,8 @@ Template.facebook.events
             if length is urls.length
               # put the full array of friend urls in the DB
               get_images urls
+
+Template.mosaic.events
   'click .walgreens': (e) ->
     e.preventDefault()
     share_walgreens()
@@ -79,4 +81,4 @@ share_walgreens = () ->
   Meteor.call 'share_walgreens', (error, result) ->
     throw error if error
     console.log result
-    Session.set 'walgreens_link', result
+    window.open result
