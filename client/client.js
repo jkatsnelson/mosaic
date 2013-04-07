@@ -101,6 +101,9 @@ function grid_img(x, y, arr) {
   newCanvas.height = y * dy;
   newCanvas.width = x * dx;
   context = newCanvas.getContext('2d');
+  var image = new Image();
+  image.src = 'data:image/jpeg;base64,' + UserImages.find().fetch()[0].body
+  image.onload = function(){ context.drawImage(image, 0, 0, w, h) }
   var i = 0, j = 0;
   while (i++ < x) {
     j = 0;
@@ -176,7 +179,6 @@ window.distance = function(colorString1, colorString2){
   var i, d = 0,
     color1 = [parseInt(colorString1.substring(0,2), 16), parseInt(colorString1.substring(2,4), 16), parseInt(colorString1.substring(4,6), 16)],
     color2 = [parseInt(colorString2.substring(0,2), 16), parseInt(colorString2.substring(2,4), 16), parseInt(colorString2.substring(4,6), 16)];
-  console.log(color1)
 
   for (i = 0; i < color1.length; i++) {
     d += (color1[i] - color2[i])*(color1[i] - color2[i]);
