@@ -14,7 +14,7 @@ Accounts.onCreateUser(function(options, user){
     result,
     profile;
 
-    result = Meteor.http.get("http://graph.facebook.com/me", {
+    result = Meteor.http.get("http://graph.facebook.com/me/Picture", {
         params: {
             access_token: accessToken
         }
