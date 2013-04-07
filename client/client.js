@@ -67,7 +67,7 @@ function tile (dx, dy, i, j) {
       .css('top', j * dy)
       .appendTo('body');
     console.log('hi');
-  }, j * 200 + i * 5);
+  }, i * 100, j * 20);
   console.log(j, i);
 }
 
