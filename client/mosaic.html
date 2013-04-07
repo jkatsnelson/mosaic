@@ -3,10 +3,25 @@
 </head>
 
 <body>
+  {{> header}}
   {{> facebook}}
 </body>
 
+<template name="header">
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="container">
+                <div class="nav pull-right">
+                      {{loginButtons}}
+                      {{#if currentUser}}
+                        {{currentUser.profile.login}}
+                      {{/if}}
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
 <template name="facebook">
   <button class="pull_data">Pull data</button>
-  {{loginButtons}}
 </template>
