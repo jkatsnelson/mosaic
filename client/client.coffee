@@ -19,7 +19,6 @@ Template.facebook.events
     Meteor.http.get 'https://graph.facebook.com/me/friends?access_token='+token, (err, result) ->
       throw err if err
       Session.set 'friendlist', result.data.data
-    console.log token
     pull_data()
 
 Deps.autorun ->
