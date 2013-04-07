@@ -35,3 +35,8 @@ body {
 #login-buttons-facebook span{
     font-size: 20px;
 }
+
+.social {
+    margin: 50px 0 0 50px;
+    list-style-type: none;
+}

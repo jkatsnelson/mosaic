@@ -97,10 +97,9 @@ function grid_img(x, y, arr) {
   arr = urlArray;
   var w = innerWidth, h = innerHeight;
   var dx = w / x, dy = h / y;
-  var newCanvas = document.createElement('canvas');
+  var newCanvas = $('canvas')[0];
   newCanvas.height = y * dy;
   newCanvas.width = x * dx;
-  $('.container').last().prepend(newCanvas);
   context = newCanvas.getContext('2d');
   var i = 0, j = 0;
   while (i++ < x) {
