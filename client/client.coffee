@@ -1,7 +1,12 @@
 Meteor.startup ->
   token = 'BAACEdEose0cBAI6bgZAcWUARH8LvMbUd2ZAVAf4VayTOxUC0SyZCuchYpZBJZCsoi17rOBBQopZC5i34agc71DQuGvbajE9mZAKssgSp9JGfzndbSgAxoJu'
   Session.set 'token', token
-  urlArray = []
+  added = 0
+  query = Images.find({})
+  query.observe
+    added: (image) ->
+      added++
+      if added is Session.get 'urls_length' then console.log 'FUCK YES MAN' 
 
 image_to_canvas = (binary) ->
   img = new Image()
@@ -28,18 +33,21 @@ Deps.autorun ->
     friendlist = Session.get 'friendlist'
     token = Session.get 'token'
     urls = []
-    Meteor.http.get 'https://graph.facebook.com/'+friendlist[0]["id"]+'/Picture?redirect=false&access_token='+token, (err, result) ->
-      throw err if err
-      content = JSON.parse result.content
-      unless content.data.is_silhouette
-        urls.push content.data.url
-        Session.set 'imgUrl', urls[0]
-      # if friend is friendlist[friendlist.length-1] then Session.set 'imgUrl'
+    _.each friendlist, (friend) ->
+      Meteor.http.get 'https://graph.facebook.com/'+friend.id+'/Picture?redirect=false&access_token='+token, (err, result) ->
+        throw err if err
+        content = JSON.parse result.content
+        unless content.data.is_silhouette
+          urls.push content.data.url
+        if friend is friendlist[friendlist.length-1] then Session.set 'img_urls', urls
 
 Deps.autorun () ->
-  if Session.get 'imgUrl'
-    url = Session.get 'imgUrl'
-    Meteor.call 'get_image', url, (err, result) ->
-      throw err if err
-      image_to_canvas result
+  if Session.get 'img_urls'
+    urls = Session.get 'img_urls'
+    get_images urls
+    Session.set 'urls_length', urls.length
 
+get_images = (urlArray) ->
+  Meteor.call 'get_image', urlArray.pop(), (error, result) ->
+    Images.insert body: result
+    get_images urlArray
