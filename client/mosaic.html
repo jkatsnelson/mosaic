@@ -1,22 +1,43 @@
  <head>
   <title>mosaic</title>
       <script src="http://tech.pusherhq.com/platform/pusher/script/pusher.color.min.js"></script>
+      <link href='http://fonts.googleapis.com/css?family=Carrois+Gothic+SC' rel='stylesheet' type='text/css'>
+
 </head>
 
 <body>
-
-  {{> header}}
-  {{> facebook}}
-  <canvas></canvas>
+    {{#if currentUser}}
+      {{> header}}
+      {{> mosaic}}
+    {{else}}
+      {{> header}}
+      {{> main}}
+      {{> facebook}}
+    {{/if}}
 
 </body>
+
+<template name="mosaic">
+  <div class="container">
+    <canvas class="span8" style="background:blue"></canvas>
+    <div class="socialButtons span3">
+      <ul>
+        <a href="" class="row"><li>Twitter</li></a>
+        <a href="" class="row"><li>Facebook</li></a>
+        <a href="" class="row"><li>walgreens</li></a>
+      </ul>
+    </div>
+  </div>
+</template>
 
 <template name="header">
     <div class="navbar">
         <div class="navbar-inner">
             <div class="container">
                 <div class="nav pull-right">
-                      {{> user_info}}
+                      {{#if currentUser}}
+                        {{> user_info}}
+                      {{/if}}
                 </div>
             </div>
         </div>
@@ -26,8 +47,20 @@
 <template name="user_info">
     <ul class="nav pull-right">
       {{loginButtons}}
-
     </ul>
+</template>
+
+<template name="main">
+  <div class="container">
+    <div class="span11 title">MOZAIFY</div>
+    <div class="span6">
+      <img src="/spock.png">
+    </div>
+    <div class="span5">
+      <p class="cta">Login with your Facebook and grab your profile picture</p>
+      {{loginButtons}}
+    </div>
+  </div>
 </template>
 
 <template name="facebook">

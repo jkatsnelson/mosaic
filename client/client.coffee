@@ -53,3 +53,21 @@ get_images = (urlArray) ->
       get_images urlArray
     else
       console.log 'done'
+
+share = (name) ->
+  if not name then name is 'Mosaic'
+  try
+    img = window.canvas.toDataURL("image/jpeg", 0.9).split(",")[1]
+  catch e
+    img = window.canvas.toDataURL().split(",")[1]
+  Meteor.http.post "https://api.imgur.com/3/image",
+    headers:
+      'Authorization': 'Client-ID d838931eecf2cf8'
+    data:
+      type: "base64"
+      name: name
+      image: img
+  , (err, data) ->
+    if err then console.error err
+    data = JSON.parse(data.content)
+    Session.set 'link', data.data.link
