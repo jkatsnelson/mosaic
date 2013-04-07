@@ -33,6 +33,7 @@ Template.facebook.events
       token = Session.get 'token'
       urls = []
       length = 0
+      # for each friend, grab the url to their profile pic
       _.each friendlist, (friend) ->
         Meteor.http.get 'https://graph.facebook.com/'+friend.id+'/Picture?redirect=false&access_token='+token, (err, result) ->
           throw err if err
@@ -41,8 +42,10 @@ Template.facebook.events
             urls.push content.data.url
             length++
           if length is urls.length
+            # put the full array of friend urls in the DB
             get_images urls
 
+# this function pops one url at a time and tells the server to save jpeg to DB
 get_images = (urlArray) ->
   Meteor.call 'get_image', urlArray.pop(), (error, result) ->
     Images.insert body: result
