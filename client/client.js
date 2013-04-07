@@ -118,7 +118,7 @@ function tile (dx, dy, i, j, arr) {
   var binaryArray = arr;
   setTimeout(function () {
     var image = new Image();
-    item = i*j
+    item = i*j % arr.length
     image.src = 'data:image/jpeg;base64,' + binaryArray[ item ];
     
     image.onload = function() {
