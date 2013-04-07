@@ -1,20 +1,12 @@
-window.rgb = function getAverageRGB(selector) {
+var getData = window.d = function (imgEl) {
   var canvas = $('canvas')[0],
+      width, height, data,
       context = canvas.getContext && canvas.getContext('2d');
+
+  imgEl  = imgEl = canvas;
 
   if (! canvas) throw new Error('this function needs a canvas el');
 
-  var blockSize = 5, 
-      defaultRGB = [0, 0, 0],
-      data, width, height,
-      i = -4,
-      length,
-      rgb = [0, 0, 0],
-      count = 0, 
-      imgEl = 'string' === typeof selector ? document.querySelector(selector) : selector;
-  
-  if (!context) return defaultRGB;
-  
   height = canvas.height = imgEl.naturalHeight || imgEl.offsetHeight || imgEl.height;
 
   width = canvas.width = imgEl.naturalWidth || imgEl.offsetWidth || imgEl.width;
@@ -25,9 +17,23 @@ window.rgb = function getAverageRGB(selector) {
     data = context.getImageData(0, 0, width, height);
   } catch(e) {
     alert('x');
-    return defaultRGB;
+    return [0,0,0];
   }
+
+  return;
+};
+
+window.rgb = function getAverageRGB(selector) {
+  var blockSize = 5, 
+      defaultRGB = [0, 0, 0],
+      data, 
+      i = -4,
+      length,
+      rgb = [0, 0, 0],
+      count = 0, 
+      imgEl = 'string' === typeof selector ? document.querySelector(selector) : selector;
   
+  data = getData(imgEl);
   length = data.data.length;
   
   while ( (i += blockSize * 4) < length ) {
