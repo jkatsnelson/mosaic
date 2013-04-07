@@ -1,4 +1,3 @@
-
 function getAverageRGB(selector) {
   var canvas = $('canvas')[0],
       context = canvas.getContext && canvas.getContext('2d');
