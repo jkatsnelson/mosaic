@@ -103,11 +103,14 @@ function grid_img(x, y, arr) {
   context = newCanvas.getContext('2d');
   var image = new Image();
   image.src = 'data:image/jpeg;base64,' + UserImages.find().fetch()[0].body
-  image.onload = function(){ context.drawImage(image, 0, 0, w, h) }
-  var i = 0, j = 0;
-  while (i++ < x) {
-    j = 0;
-    while (j++ < y) tile(dx, dy, i, j, arr);
+  image.onload = function(){
+    context.drawImage(image, 0, 0, w, h) 
+    context.globalAlpha = 0.2
+    var i = 0, j = 0;
+    while (i++ < x) {
+      j = 0;
+      while (j++ < y) tile(dx, dy, i, j, arr);
+    }
   }
 };
 
