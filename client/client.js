@@ -75,9 +75,17 @@ var getImage = function(url) {
   context.drawImage(image, 0, 0);
 };
 
+var context;
+
+//grid x = how many aside y = height
 function grid_img(x, y) {
   var w = innerWidth, h = innerHeight;
   var dx = w / x, dy = h / y;
+  var newCanvas = document.createElement('canvas');
+  newCanvas.height = y * dy;
+  newCanvas.width = x * dx;
+  context = newCanvas.getContext('2d');
+  $('body').append(newCanvas).addClass('helloworld');
   var i = 0, j = 0;
   while (i++ < x) {
     j = 0;
@@ -92,12 +100,7 @@ function tile (dx, dy, i, j) {
     image.src = url[ ~~(Math.random() * url.length) ];
     
     image.onload = function() {
-      var newCanvas = document.createElement('canvas');
-      image.height = newCanvas.height = dy;
-      image.width = newCanvas.width = dx;
-      $('body').append(newCanvas);
-      var context = newCanvas.getContext('2d');
-      context.drawImage(image, 0, 0);
+      context.drawImage(image, dx * i, dy * j, dx, dy);
     };
           
     
@@ -120,6 +123,7 @@ Meteor.isClient && (window.test = function () {
     }, i * 10);
   });
 });
+
 
 Meteor.startup(function() {
   var colorArray = [[240,200,139], [15,93,100], [60,200,60], [100,255, 100], [57,57,90], [200, 100, 63], [12,09,80], [1, 1 , 255]];
@@ -150,3 +154,35 @@ Meteor.startup(function() {
   window.a = rgbSort;
   window.c = plotColors;
 });
+
+
+
+function closest (arr, comparator) {
+  var c = arr[0];
+  arr.forEach(function (item) {
+    if (comparator(item) < comparator(c)) c = item;
+  });
+  return c;
+}
+
+window.bs = function bsearc_closest(arr, val, cmp){
+  var lo = 0, hi = arr.length;
+  var mid = (lo + hi) >> 1;
+  var b, prev;
+  cmp = cmp || _.identity;
+
+  while(mid > lo && mid < hi){
+    b = cmp(arr[mid]);
+    console.log(b, mid);
+    if (b > val) hi = mid; 
+    if (b === val) return mid;
+    if (b < val) lo = mid; 
+    prev = mid;
+    mid = (lo + hi) >> 1;
+  }
+  //no match found
+  return prev;
+};
+
+window.r = _.range(10, 155, 5);
+

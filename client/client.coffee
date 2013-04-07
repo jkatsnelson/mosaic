@@ -9,6 +9,7 @@ Meteor.startup ->
         if added is Session.get 'urls_length' then console.log 'FUCK YES MAN'
 
 image_to_canvas = (binary) ->
+  console.log(binary)
   img = new Image()
   img.src = 'data:image/jpeg;base64,' + binary
   ctx = document.getElementById('c').getContext('2d')
@@ -48,6 +49,7 @@ Template.facebook.events
 # this function pops one url at a time and tells the server to save jpeg to DB
 get_images = (urlArray) ->
   Meteor.call 'get_image', urlArray.pop(), (error, result) ->
+    console.log result
     Images.insert body: result
     if urlArray.length
       get_images urlArray
