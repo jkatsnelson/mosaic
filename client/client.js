@@ -157,18 +157,32 @@ Meteor.startup(function() {
 
 
 
-window.bs = function bsearc_closest(arr, val){
+function closest (arr, comparator) {
+  var c = arr[0];
+  arr.forEach(function (item) {
+    if (comparator(item) < comparator(c)) c = item;
+  });
+  return c;
+}
+
+window.bs = function bsearc_closest(arr, val, cmp){
   var lo = 0, hi = arr.length;
   var mid = (lo + hi) >> 1;
-  var prev;
-  val = typeof val === 'function' ? val : function (d) { return val > d};
+  var b, prev;
+  cmp = cmp || _.identity;
 
   while(mid > lo && mid < hi){
-    prev = arr[mid];
-    val(arr[mid]) ? (hi = mid) : (lo = mid);
+    b = cmp(arr[mid]);
+    console.log(b, mid);
+    if (b > val) hi = mid; 
+    if (b === val) return mid;
+    if (b < val) lo = mid; 
+    prev = mid;
     mid = (lo + hi) >> 1;
   }
+  //no match found
   return prev;
 };
 
+window.r = _.range(10, 155, 5);
 
