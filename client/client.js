@@ -1,4 +1,3 @@
-
 function getAverageRGB(selector) {
   var canvas = $('canvas')[0],
       context = canvas.getContext && canvas.getContext('2d');
@@ -49,20 +48,27 @@ function getAverageRGB(selector) {
 function grid_img(x, y) {
   var w = innerWidth, h = innerHeight;
   var dx = w / x, dy = h / y;
-  var url = window.test_url;
   var i = 0, j = 0;
   while (i++ < x) {
     j = 0;
-    while (j++ < y) {
-      $('<img>').css('position', 'absolute')
-        .attr('src', url[ ~~(Math.random() * url.length) ])
-        .css('height', dy)
-        .css('width', dx)
-        .css('left', i * dx)
-        .css('top', j * dy)
-        .appendTo('body');
-    }
+    while (j++ < y) tile(dx, dy, i, j);
   }
+}
+
+
+function tile (dx, dy, i, j) {
+  var url = window.test_url;
+  setTimeout(function () {
+    $('<img>').css('position', 'absolute')
+      .attr('src', url[ ~~(Math.random() * url.length) ])
+      .css('height', dy)
+      .css('width', dx)
+      .css('left', i * dx)
+      .css('top', j * dy)
+      .appendTo('body');
+    console.log('hi');
+  }, j * 200 + i * 5);
+  console.log(j, i);
 }
 
 if (Meteor.isClient) window.g = grid_img;
