@@ -3,6 +3,3 @@ Accounts.ui.config({
     facebook: ['friends_photos']
   }
 });
-
-// console.log(Accounts.)
-// Session.set('accessToken', )

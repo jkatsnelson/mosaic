@@ -14,3 +14,8 @@ Meteor.methods
       fut.ret jpeg
     # pause until binaries are fully loaded
     return fut.wait()
+  get_access_token: () ->
+    try
+      return Meteor.user().services.facebook.accessToken
+    catch e
+      throw e
