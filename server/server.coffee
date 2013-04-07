@@ -20,6 +20,7 @@ Meteor.methods
     catch e
       throw e
   share_walgreens : () ->
+    fut = new Future()
     console.log 'got through'
     api_key = 'a61e8e47ca83e86a2b8c705899ae9f6d'
     affiliate_id = 'hackathon'
@@ -47,6 +48,7 @@ Meteor.methods
       "channelInfo": "",
       "callBackLink": "",
       "prodGroupId": ""
+
     Meteor.http.post base_url, 'data' : request_block, (err, data) ->
       console.log 'hit'
       if err then console.error err
@@ -55,3 +57,6 @@ Meteor.methods
       token = data.token
       link = landingURL + '&token=' + token
       console.log link
+      fut.ret link
+
+    fut.wait()
