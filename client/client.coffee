@@ -15,19 +15,19 @@ image_to_canvas = (binary) ->
   img.onload = () ->
     ctx.drawImage(img, 0, 0)
 
-Deps.autorun 
-
 Template.facebook.events
   'click .pull_data': (e) ->
     e.preventDefault()
     Meteor.call "get_access_token", (error, accessToken) ->
       throw error if error
       token = accessToken
-    # get profile pic of user
+    # get profile pic of user, saves it in UserImages DB
       Meteor.http.get 'https://graph.facebook.com/me/Picture?width=9999&height=9999&redirect=false&access_token='+token, (err, result) ->
         throw err if err
         content = JSON.parse result.content
-        Session.set 'user_image', content.data.url
+        Meteor.call 'get_image', content.data.url, (error, result) ->
+          UserImages.insert body: result
+          console.log 'user images inserted'
       # get friends profile pics
       Meteor.http.get 'https://graph.facebook.com/me/friends?access_token='+token, (err, result) ->
         throw err if err
