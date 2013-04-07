@@ -97,10 +97,9 @@ function grid_img(x, y, arr) {
   arr = urlArray;
   var w = innerWidth, h = innerHeight;
   var dx = w / x, dy = h / y;
-  var newCanvas = document.createElement('canvas');
+  var newCanvas = $('canvas')[0];
   newCanvas.height = y * dy;
   newCanvas.width = x * dx;
-  $('body').append(newCanvas);
   context = newCanvas.getContext('2d');
   var i = 0, j = 0;
   while (i++ < x) {
@@ -113,7 +112,8 @@ function tile (dx, dy, i, j, arr) {
   var binaryArray = arr;
   setTimeout(function () {
     var image = new Image();
-    image.src = 'data:image/jpeg;base64,' + binaryArray[ i*j ];
+    item = i*j
+    image.src = 'data:image/jpeg;base64,' + binaryArray[ item ];
     
     image.onload = function() {
       context.drawImage(image, dx * (i-1), dy * (j-1), dx, dy);
