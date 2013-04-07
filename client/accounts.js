@@ -1,0 +1,19 @@
+Template.user_loggedout.events({
+    "click #login": function (e, tmpl) {
+        Meteor.loginWithFacebook({
+            requestPermissions: ['user', 'photos']
+        }, function (err){
+            if (err) {
+                console.log(err);
+            }
+        })
+    }
+})
+
+Template.user_loggedin.events({
+    "click #login": function (e, tmpl) {
+        Meteor.logout(function(err){
+            console.log(err);
+        })
+    }
+})
