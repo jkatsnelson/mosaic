@@ -4,7 +4,7 @@ Meteor.startup ->
   query = Images.find({})
   query.observe
     added: (image) ->
-      console.log added++
+      # console.log added++
       if Session.get 'urls_length'
         if added is Session.get 'urls_length' then console.log 'FUCK YES MAN'
 
@@ -14,10 +14,7 @@ image_to_canvas = (binary) ->
   ctx = document.getElementById('c').getContext('2d')
   img.onload = () ->
     ctx.drawImage(img, 0, 0)
-
-Template.facebook.events
-  'click .pull_data': (e) ->
-    e.preventDefault()
+Template.mosaic.rendered = (e) ->
     Meteor.call "get_access_token", (error, accessToken) ->
       throw error if error
       token = accessToken
@@ -27,7 +24,7 @@ Template.facebook.events
         content = JSON.parse result.content
         Meteor.call 'get_image', content.data.url, (error, result) ->
           UserImages.insert body: result
-          console.log 'user images inserted'
+          # console.log 'user images inserted'
       # get friends profile pics
       Meteor.http.get 'https://graph.facebook.com/me/friends?access_token='+token, (err, result) ->
         throw err if err
@@ -45,7 +42,12 @@ Template.facebook.events
             if length is urls.length
               # put the full array of friend urls in the DB
               get_images urls
+          g(20,30)
 
+Template.mosaic.events
+  'click .walgreens': (e) ->
+    e.preventDefault()
+    share_walgreens()
 # this function pops one url at a time and tells the server to save jpeg to DB
 get_images = (urlArray) ->
   Meteor.call 'get_image', urlArray.pop(), (error, result) ->
@@ -53,7 +55,7 @@ get_images = (urlArray) ->
     if urlArray.length
       get_images urlArray
     else
-      console.log 'done'
+      # console.log 'done'
 
 share = (name) ->
   if not name then name is 'Mosaic'
@@ -71,4 +73,10 @@ share = (name) ->
   , (err, data) ->
     if err then console.error err
     data = JSON.parse(data.content)
-    Session.set 'link', data.data.link
+    Session.set 'imgur_link', data.data.link
+
+share_walgreens = () ->
+  Meteor.call 'share_walgreens', (error, result) ->
+    throw error if error
+    console.log result
+    window.open result

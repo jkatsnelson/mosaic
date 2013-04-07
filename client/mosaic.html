@@ -1,6 +1,5 @@
  <head>
   <title>mosaic</title>
-      <script src="http://tech.pusherhq.com/platform/pusher/script/pusher.color.min.js"></script>
       <link href='http://fonts.googleapis.com/css?family=Carrois+Gothic+SC' rel='stylesheet' type='text/css'>
 
 </head>
@@ -9,11 +8,9 @@
     {{#if currentUser}}
       {{> header}}
       {{> mosaic}}
-      {{> facebook}}
     {{else}}
       {{> header}}
       {{> main}}
-      {{> facebook}}
     {{/if}}
     <canvas id="hidden"></canvas>
 </body>
@@ -23,9 +20,9 @@
     <canvas class="span8" style="height: 600px; width: 600px; border: 2px solid black"></canvas>
     <div class="socialButtons span3">
       <ul class="social">
-        <a href="" class="row"><li><img src="/twitter.png"></li></a>
-        <a href="" class="row"><li><img src="/facebook.png"></li></a>
-        <a href="" class="row"><li><img src="/walgreens.png"></li></a>
+        <a href="https://twitter.com/home?status=http://i.imgur.com/SVZHHXD.jpg via @instahood http://mosaify.meteor.com" class="row"><li><img src="/twitter.png"></li></a>
+        <a href="https://www.facebook.com/sharer/sharer.php?u=http://i.imgur.com/SVZHHXD.jpg&t=via http://mosaify.meteor.com" target="_blank" class="row"><li><img src="/facebook.png"></li></a>
+        <a href="#" class="walgreens row"><li><img src="/walgreens.png"></li></a>
       </ul>
     </div>
   </div>
@@ -64,6 +61,3 @@
   </div>
 </template>
 
-<template name="facebook">
-  <button class="pull_data">Pull data</button>
-</template>
