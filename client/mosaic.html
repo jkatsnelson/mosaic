@@ -5,6 +5,7 @@
 <body>
   {{> header}}
   {{> facebook}}
+  <canvas></canvas>
 </body>
 
 <template name="header">
@@ -54,5 +55,7 @@
 </template>
 
 <template name="facebook">
+  <canvas id="c" />
   <button class="pull_data">Pull data</button>
+  {{loginButtons}}
 </template>
