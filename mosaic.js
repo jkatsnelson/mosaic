@@ -31,11 +31,11 @@ function getAverageRGB(selector) {
   if (! canvas) throw new Error('this function needs a canvas el');
 
     var blockSize = 5, 
-        defaultRGB = {r:0,g:0,b:0},
+        defaultRGB = [0, 0, 0],
         data, width, height,
         i = -4,
         length,
-        rgb = {r:0,g:0,b:0},
+        rgb = [0, 0, 0],
         count = 0, 
         imgEl = 'string' === typeof selector ? document.querySelector(selector) : selector;
         
@@ -58,14 +58,14 @@ function getAverageRGB(selector) {
     
     while ( (i += blockSize * 4) < length ) {
         ++count;
-        rgb.r += data.data[i];
-        rgb.g += data.data[i+1];
-        rgb.b += data.data[i+2];
+        rgb[0] += data.data[i];
+        rgb[1] += data.data[i+1];
+        rgb[2] += data.data[i+2];
     }
     
-    rgb.r = ~~(rgb.r/count);
-    rgb.g = ~~(rgb.g/count);
-    rgb.b = ~~(rgb.b/count);
+    rgb[0] = ~~ (rgb[0] / count);
+    rgb[1] = ~~ (rgb[1] / count);
+    rgb[2] = ~~ (rgb[2] / count);
     
     return rgb;
 }
