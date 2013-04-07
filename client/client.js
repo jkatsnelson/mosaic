@@ -26,7 +26,16 @@ var getData = window.d = function (imgel) {
   return;
 };
 
+image_to_canvas = function(binary) {
+  var ctx, img;
 
+  img = new Image();
+  img.src = 'data:image/jpeg;base64,' + binary;
+  ctx = document.getElementById('c').getContext('2d');
+  return img.onload = function() {
+    return ctx.drawImage(img, 0, 0);
+  };
+};
 
 window.rgb = function getAverageRGB(selector) {
   var blockSize = 5, 
@@ -53,7 +62,7 @@ window.rgb = function getAverageRGB(selector) {
   rgb[2] = ~~ (rgb[2] / count);
   
   return rgb;
-}
+};
 
 var getImage = function(url) {
   var image = new Image();
@@ -74,19 +83,32 @@ function grid_img(x, y) {
     j = 0;
     while (j++ < y) tile(dx, dy, i, j);
   }
-}
-
+};
 
 function tile (dx, dy, i, j) {
   var url = window.test_url;
   setTimeout(function () {
-    $('<img>').css('position', 'absolute')
-      .attr('src', url[ ~~(Math.random() * url.length) ])
-      .css('height', dy)
-      .css('width', dx)
-      .css('left', i * dx)
-      .css('top', j * dy)
-      .appendTo('body');
+    var image = new Image();
+    image.src = url[ ~~(Math.random() * url.length) ];
+    
+    image.onload = function() {
+      var newCanvas = document.createElement('canvas');
+      image.height = newCanvas.height = dy;
+      image.width = newCanvas.width = dx;
+      $('body').append(newCanvas);
+      var context = newCanvas.getContext('2d');
+      context.drawImage(image, 0, 0);
+    };
+          
+    
+    // $('<img>').css('position', 'absolute')
+    //   .attr('src', url[ ~~(Math.random() * url.length) ])
+    //   .css('height', dy)
+    //   .css('width', dx)
+    //   .css('left', i * dx)
+    //   .css('top', j * dy)
+    //   .load()
+    //   .appendTo('body');
   }, i * 10 + j + 10);
 };
 
@@ -104,7 +126,7 @@ Meteor.startup(function() {
 
   var condenseValue = function(array) {
     var resultarray = [];
-    for(var i = 0; i < array.length; i++) {
+    for (var i = 0; i < array.length; i++) {
       resultarray.push(pusher.color('rgb', array[i][0], array[i][1], array[i][2]));
     }
     return resultarray;
@@ -117,7 +139,7 @@ Meteor.startup(function() {
   };
 
   var plotColors = function(array) {
-    for(var i = 0; i < array.length; i++) {
+    for (var i = 0; i < array.length; i++) {
       $('body').append('<div class="test" style="background: '+ array[i].html() + ';"</div>')
     }
   };
@@ -127,4 +149,4 @@ Meteor.startup(function() {
   window.b = condenseValue;
   window.a = rgbSort;
   window.c = plotColors;
-})
+});
