@@ -1,4 +1,4 @@
-function getAverageRGB(selector) {
+window.rgb = function getAverageRGB(selector) {
   var canvas = $('canvas')[0],
       context = canvas.getContext && canvas.getContext('2d');
 
@@ -67,7 +67,7 @@ function tile (dx, dy, i, j) {
       .css('top', j * dy)
       .appendTo('body');
     console.log('hi');
-  }, i * 100, j * 20);
+  }, i * 10 + j + 10);
   console.log(j, i);
 }
 
