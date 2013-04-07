@@ -9,3 +9,5 @@ preserve-inputs
 coffeescript
 http
 underscore
+accounts-ui
+accounts-facebook
