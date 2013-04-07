@@ -1,20 +1,24 @@
-var getData = window.d = function (imgEl) {
+var getData = window.d = function (imgel) {
   var canvas = $('canvas')[0],
       width, height, data,
-      context = canvas.getContext && canvas.getContext('2d');
+      context = canvas.getContext('2d');
 
-  imgEl  = imgEl = canvas;
+  if (imgel) {
+    if (! canvas) throw new error('this function needs a canvas el');
 
-  if (! canvas) throw new Error('this function needs a canvas el');
+    height = canvas.height = imgel.naturalheight || imgel.offsetheight || imgel.height;
 
-  height = canvas.height = imgEl.naturalHeight || imgEl.offsetHeight || imgEl.height;
-
-  width = canvas.width = imgEl.naturalWidth || imgEl.offsetWidth || imgEl.width;
-  
-  context.drawImage(imgEl, 0, 0);
+    width = canvas.width = imgel.naturalwidth || imgel.offsetwidth || imgel.width;
+    
+    context.drawimage(imgel, 0, 0);
+  }
   
   try {
-    data = context.getImageData(0, 0, width, height);
+    data = context.getImageData(0,
+                                0,
+                                width || canvas.width,
+                                height || canvas.height
+                               );
   } catch(e) {
     alert('x');
     return [0,0,0];
@@ -100,4 +104,4 @@ Template.hello.events = {
   'click .btn' : function() {
     getImage('http://www.thejunglestore.com/core/media/media.nl?id=37516&c=432681&h=3c579cf84403f4536d5b');
   }
-}
+};
