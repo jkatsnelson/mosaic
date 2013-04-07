@@ -171,7 +171,18 @@ Meteor.startup(function() {
   window.c = plotColors;
 });
 
+window.distance = function(colorString1, colorString2){
 
+  var i, d = 0,
+    color1 = [parseInt(colorString1.substring(0,2), 16), parseInt(colorString1.substring(2,4), 16), parseInt(colorString1.substring(4,6), 16)],
+    color2 = [parseInt(colorString2.substring(0,2), 16), parseInt(colorString2.substring(2,4), 16), parseInt(colorString2.substring(4,6), 16)];
+  console.log(color1)
+
+  for (i = 0; i < color1.length; i++) {
+    d += (color1[i] - color2[i])*(color1[i] - color2[i]);
+  }
+  return Math.sqrt(d);
+}
 
 function closest (arr, comparator) {
   var c = arr[0];
