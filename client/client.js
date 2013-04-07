@@ -96,10 +96,9 @@ function grid_img(x, y, arr) {
   arr = urlArray;
   var w = innerWidth, h = innerHeight;
   var dx = w / x, dy = h / y;
-  var newCanvas = document.createElement('canvas');
+  var newCanvas = $('canvas')[0];
   newCanvas.height = y * dy;
   newCanvas.width = x * dx;
-  $('body').append(newCanvas);
   context = newCanvas.getContext('2d');
   var i = 0, j = 0;
   while (i++ < x) {
@@ -112,7 +111,8 @@ function tile (dx, dy, i, j, arr) {
   var binaryArray = arr;
   setTimeout(function () {
     var image = new Image();
-    image.src = 'data:image/jpeg;base64,' + binaryArray[ i*j ];
+    item = i*j
+    image.src = 'data:image/jpeg;base64,' + binaryArray[ item ];
     
     image.onload = function() {
       context.drawImage(image, dx * (i-1), dy * (j-1), dx, dy);
@@ -170,7 +170,18 @@ Meteor.startup(function() {
   window.c = plotColors;
 });
 
+window.distance = function(colorString1, colorString2){
 
+  var i, d = 0,
+    color1 = [parseInt(colorString1.substring(0,2), 16), parseInt(colorString1.substring(2,4), 16), parseInt(colorString1.substring(4,6), 16)],
+    color2 = [parseInt(colorString2.substring(0,2), 16), parseInt(colorString2.substring(2,4), 16), parseInt(colorString2.substring(4,6), 16)];
+  console.log(color1)
+
+  for (i = 0; i < color1.length; i++) {
+    d += (color1[i] - color2[i])*(color1[i] - color2[i]);
+  }
+  return Math.sqrt(d);
+}
 
 function closest (arr, comparator) {
   var c = arr[0];
