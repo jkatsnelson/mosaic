@@ -105,7 +105,7 @@ function grid_img(x, y, arr) {
   image.src = 'data:image/jpeg;base64,' + UserImages.find().fetch()[0].body
   image.onload = function(){
     context.drawImage(image, 0, 0, w, h) 
-    context.globalAlpha = 0.2
+    context.globalAlpha = 0.1
     var i = 0, j = 0;
     while (i++ < x) {
       j = 0;
@@ -147,35 +147,35 @@ Meteor.isClient && (window.test = function () {
 });
 
 
-Meteor.startup(function() {
-  var colorArray = [[240,200,139], [15,93,100], [60,200,60], [100,255, 100], [57,57,90], [200, 100, 63], [12,09,80], [1, 1 , 255]];
+// Meteor.startup(function() {
+//   var colorArray = [[240,200,139], [15,93,100], [60,200,60], [100,255, 100], [57,57,90], [200, 100, 63], [12,09,80], [1, 1 , 255]];
 
-  var condenseValue = function(array) {
-    var resultarray = [];
-    for (var i = 0; i < array.length; i++) {
-      resultarray.push(pusher.color('rgb', array[i][0], array[i][1], array[i][2]));
-    }
-    return resultarray;
-  };
+//   var condenseValue = function(array) {
+//     var resultarray = [];
+//     for (var i = 0; i < array.length; i++) {
+//       resultarray.push(pusher.color('rgb', array[i][0], array[i][1], array[i][2]));
+//     }
+//     return resultarray;
+//   };
 
-  var rgbSort = function() {
-    array.sort(function(colorA, colorB) {
-    return pusher.color(colorA).hue() - pusher.color(colorB).hue();
-    })
-  };
+//   var rgbSort = function() {
+//     array.sort(function(colorA, colorB) {
+//     return pusher.color(colorA).hue() - pusher.color(colorB).hue();
+//     })
+//   };
 
-  var plotColors = function(array) {
-    for (var i = 0; i < array.length; i++) {
-      $('body').append('<div class="test" style="background: '+ array[i].html() + ';"</div>')
-    }
-  };
+//   var plotColors = function(array) {
+//     for (var i = 0; i < array.length; i++) {
+//       $('body').append('<div class="test" style="background: '+ array[i].html() + ';"</div>')
+//     }
+//   };
 
-  window.array = colorArray;
+//   window.array = colorArray;
     
-  window.b = condenseValue;
-  window.a = rgbSort;
-  window.c = plotColors;
-});
+//   window.b = condenseValue;
+//   window.a = rgbSort;
+//   window.c = plotColors;
+// });
 
 window.distance = function(colorString1, colorString2){
 
