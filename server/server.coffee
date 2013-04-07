@@ -1,9 +1,6 @@
 request = Npm.require 'request'
 Future = Npm.require 'fibers/future'
 
-binaries = []
-num = 0
-
 Meteor.methods
   get_image : (url) ->
     fut = new Future()
