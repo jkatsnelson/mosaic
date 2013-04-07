@@ -14,7 +14,7 @@ Accounts.onCreateUser(function(options, user){
     result,
     profile;
 
-    result = Meteor.http.get("http://facebook.com/api", {
+    result = Meteor.http.get("http://graph.facebook.com/me", {
         params: {
             access_token: accessToken
         }
@@ -24,11 +24,11 @@ Accounts.onCreateUser(function(options, user){
         throw result.error
 
     profile = _.pick(result.data,
-        "login",
+        "id",
         "name",
-        "profile_url",
-        "etc",
-        "etc");
+        "link",
+        "username",
+        "gender");
 
     user.profile = profile;
 
