@@ -1,14 +1,15 @@
 var getData = window.d = function (imgel) {
-  var canvas = $('canvas')[0],
+  var canvas = $('#hidden')[0],
       width, height, data,
       context = canvas.getContext('2d');
 
+  canvas.width = canvas.height = 500;
   if (imgel) {
     if (! canvas) throw new error('this function needs a canvas el');
     height = canvas.height = imgel.naturalheight || imgel.offsetheight || imgel.height;
     width = canvas.width = imgel.naturalwidth || imgel.offsetwidth || imgel.width;
     
-    context.drawimage(imgel, 0, 0);
+    context.drawImage(imgel, 0, 0);
   }
   
   try {
@@ -18,11 +19,10 @@ var getData = window.d = function (imgel) {
                                 height || canvas.height
                                );
   } catch(e) {
-    alert('x');
-    return [0,0,0];
+    throw new Error(e);
   }
 
-  return;
+  return data;
 };
 
 image_to_canvas = function(binary) {
@@ -214,8 +214,10 @@ window.r = _.range(10, 155, 5);
 
 
 function sorted_pics() {
-  var img = Images.find().fetch().sort();
-  img.each(function (img) {
+  var img = Images.find().fetch();
+  var c =document.querySelector('#hidden');
+  c.height = c.width = 500;
+  img.forEach(function (img) {
     img.avg = 
       window.rgb($('<img>')
                  .attr('src', 'data:image/jpeg;base64,' + img.body)[0]);
@@ -223,5 +225,8 @@ function sorted_pics() {
 
   return img.sort(function(colorA, colorB) {
     return pusher.color(colorA.avg).hue() - pusher.color(colorB.avg).hue();
-    });
+  });
 }
+
+window.sp = sorted_pics;
+
