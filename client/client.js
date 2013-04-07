@@ -100,8 +100,3 @@ Meteor.isClient && (window.test = function () {
   });
 });
 
-Template.hello.events = {
-  'click .btn' : function() {
-    getImage('http://www.thejunglestore.com/core/media/media.nl?id=37516&c=432681&h=3c579cf84403f4536d5b');
-  }
-};
